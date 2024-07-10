@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model co2e_emissions {
+  id          Int      @id @default(autoincrement())
+  Name        String?  @db.VarChar(255)
+  sector      String?  @db.VarChar(255)
+  category    String?  @db.VarChar(255)
+  methodology String?  @db.VarChar(255)
+  year        Int?
+  region      String?  @db.VarChar(255)
+  co2e_unit   String?  @db.VarChar(50)
+  co2e        Decimal? @db.Decimal(10, 2)
+  userId      String?  @db.VarChar(255)
+}
