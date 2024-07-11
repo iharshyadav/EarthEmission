@@ -36,7 +36,7 @@ const ViewHeader: FC<viewHeaderProps> = ({}) => {
         ))}
       </div>
       <div className='xl:mt-8 md:mt-5 sm:mt-6 mt-5 w-full text-end'>
-        <button className="bg-[#0600f7] xl:w-[25%] font-medium lg:w-[32%] md:text-sm lg:text-base lg-w p-2 text-white hover:bg-[#0400f7e7]">
+        <button className="bg-[#0600f7] xl:w-[25%] font-medium lg:w-[32%] md:text-sm lg:text-sm lg-w p-2 text-white hover:bg-[#0400f7e7]">
               Explore All Factors for this Activity
         </button>
       </div>

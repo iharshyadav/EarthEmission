@@ -107,7 +107,7 @@ export default function Sidebar() {
             </h3>
             <ul className="mt-3">
 
-               {/* Log Emissions */}
+               {/* Customer */}
                <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${segments.includes('log-emissions') && 'bg-slate-900'}`}>
                 <SidebarLink href="/ecommerce/customers">
                   <div className="flex items-center">

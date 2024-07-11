@@ -55,9 +55,9 @@ const ViewSummary: FC<viewSummaryProps> = ({}) => {
       <div className="mt-10">
         {data.map((item, index) => (
           <>
-            <table className="mt-3 text-sm font-medium ">
+            <table className="mt-3 sm:w-full w-full text-sm font-medium ">
               <tbody>
-                <tr className="flex gap-72">
+                <tr className="flex sm:gap-72 gap-4">
                   <td className='w-12'>{item.name}</td>
                   <td className={`w-92 text-start ${item.colorCheck ? 'text-[#0600f7]' : 'text-black'}`}>{item.value}</td>
                 </tr>
