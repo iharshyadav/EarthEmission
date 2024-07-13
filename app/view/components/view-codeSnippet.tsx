@@ -26,15 +26,15 @@ const ViewCodeSnippet: FC<viewCodeSnippetProps> = ({}) => {
   return (
     <div className="">
       <h1 className="text-[#2b3f56] font-semibold mb-2">API REFERENCE</h1>
-      <hr className="border-1" />
+      <hr className="border-1 w-full" />
       <div className="mt-10">
         <p className=" font-medium mb-2 text-sm">Activity ID</p>
-        <div className='flex'>
+        <div className='flex text-[0.9rem]'>
           <p>
             elictricity-supply_grid-source_market_for_electricity_high_voltage
           </p>
           {
-            copied ? <button onClick={handleCopy} ><Check /></button> :<button onClick={handleCopy}><Clipboard /></button>
+            copied ? <button onClick={handleCopy} ><Check className='text-sm'/></button> :<button onClick={handleCopy}><Clipboard /></button>
           }
           
          

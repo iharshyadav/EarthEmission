@@ -1,4 +1,6 @@
 "use client"
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { FC, useState } from 'react'
 
 interface viewBreadcrumbProps {
@@ -8,6 +10,8 @@ interface viewBreadcrumbProps {
 const ViewBreadcrumb: FC<viewBreadcrumbProps> = ({}) => {
 
   const [isHovering, setIsHovering] = useState(false);
+
+  const path : string = usePathname()
 
   const handleMouseEnter = () => {
     setIsHovering(true);
@@ -19,60 +23,67 @@ const ViewBreadcrumb: FC<viewBreadcrumbProps> = ({}) => {
 
 
   return (
-    <div className="relative rounded-lg border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md">
-      <h3 className="text-xl font-bold text-gray-900">
-        Electricity - high voltage (market for electricity - high voltage)
-      </h3>
-      <div className="flex mt-4 space-x-4">
-        <div className="flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-gray-500"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 13a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V13a2 2 0 00-2-2H5zM15 13a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V13a2 2 0 00-2-2h-2z"
-            />
-          </svg>
-          <span className="ml-2 text-gray-600">858 Factors</span>
-        </div>
-        <div className="flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-gray-500"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-.707L16 11.586V8a6 6 0 00-6-6z"
-            />
-          </svg>
-          <span className="ml-2 text-gray-600">178 Regions</span>
-        </div>
-        <div className="flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-gray-500"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              d="M13.586 3.586a2 2 0 112.828 2.828l-.707.707a2 2 0 01-2.828-2.828h.707V5.707L7.293 9.293a2 2 0 11-2.828-2.828l.707-.707a2 2 0 012.828 2.828V8.293l5.707 5.707a2 2 0 112.828-2.828l-.707-.707a2 2 0 01-2.828 2.828H10.293L13.586 3.586z"
-            />
-          </svg>
-          <span className="ml-2 text-gray-600">1 Source</span>
+    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <div className=" py-8 dark:border-slate-700 rounded-sm">
+        <div className="text-start">
+          {/* Start */}
+          <ul className="inline-flex flex-wrap lg:text-[0.9vw] md:text-[1.3vw] sm:text-[1.6vw] text-[3vw] font-medium">
+            <li className="flex items-center">
+              <a
+                className="text-slate-500 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-500"
+                href="#0"
+              >
+                Data Explorer
+              </a>
+              <svg
+                className="h-4 w-2 sm:w-4 fill-current text-slate-400 dark:text-slate-600 sm:mx-3 mx-1"
+                viewBox="0 0 16 16"
+              >
+                <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
+              </svg>
+            </li>
+            <li className="flex items-center">
+              <a
+                className="text-slate-500 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-500"
+                href="#0"
+              >
+                Energy
+              </a>
+              <svg
+                className="h-4 w-2 sm:w-4 fill-current text-slate-400 dark:text-slate-600 sm:mx-3 mx-1"
+                viewBox="0 0 16 16"
+              >
+                <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
+              </svg>
+            </li>
+            <li className="flex items-center">
+              <a
+                className="text-slate-500 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-500"
+                href="#0"
+              >
+                Electricity
+              </a>
+              <svg
+                className="h-4 w-2 sm:w-4 fill-current text-slate-400 dark:text-slate-600 sm:mx-3 mx-1"
+                viewBox="0 0 16 16"
+              >
+                <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
+              </svg>
+            </li>
+            <li className="flex items-center">
+              <Link
+                className={`text-slate-500 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-500`}
+                href="/view"
+              >
+                <p className={` ${path === '/view' ? 'text-indigo-500': ''}`}>
+                  Electricity - high voltage market ....
+                </p>
+              </Link>
+            </li>
+          </ul>
+          {/* End */}
         </div>
       </div>
-      <button
-        className={`absolute bottom-4 right-4 px-4 py-2 text-sm font-medium text-white transition duration-300 ease-in-out rounded-md ${
-          isHovering ? 'bg-blue-500 hover:bg-blue-700' : 'bg-blue-400 hover:bg-blue-600'
-        }`}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        Explore All Factors for this Activity
-      </button>
     </div>
   );
 }

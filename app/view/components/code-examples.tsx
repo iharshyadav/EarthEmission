@@ -43,16 +43,15 @@ const CodeExamples: FC<codeExamplesProps> = ({}) => {
       return (
         <div style={{ fontFamily: "monospace" }}>
         <pre
-          style={{
-            // backgroundColor: "#282c34",
-            color: "#ffffff",
-            // padding: "20px",
-            borderRadius: "8px",
-            whiteSpace: "pre-wrap",
-            wordBreak: "break-all",
-            overflowX: "auto",
-            fontSize: "0.8vw",
-          }}
+           className="
+           text-white
+           lg:p-4
+           rounded-md
+           whitespace-pre-wrap
+           break-all
+           overflow-x-auto
+           text-xs
+         "
         >
           {`curl --request POST \\
   --url https://api.climatiq.io/estimate \\
@@ -77,7 +76,7 @@ const CodeExamples: FC<codeExamplesProps> = ({}) => {
     <div>
       <p className="font-medium mb-2 text-sm">Code Snippets</p>
 
-      <div className="sm:w-[24rem] w-80 mx-auto h-80 bg-[#212936] shadow-md rounded-lg ">
+      <div className="md:w-[27vw] mx-auto h-80 bg-[#212936] shadow-md rounded-lg ">
         <div className="flex justify-between text-white gap-3 h-10 bg-[#374151]">
           <div className="flex gap-4">
             <button
