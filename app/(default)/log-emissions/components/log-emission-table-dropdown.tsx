@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button} from "@nextui-org/react";
 import EditModel from './edit-model';
 import { co2Emission } from '../log-emissions-table';
+import { ChevronRight } from 'lucide-react';
 
 interface Co2EmissionsTableItemProps {
     co2emission: co2Emission
@@ -10,11 +11,14 @@ interface Co2EmissionsTableItemProps {
     onCheckboxChange: (id: number, checked: boolean) => void
     isSelected: boolean
     className : string
+    
   }
 
 const MultilevelDropdown = ({ co2emission, onCheckboxChange, isSelected }:Co2EmissionsTableItemProps) => {
+
   const [isMainOpen, setIsMainOpen] = useState(false);
   const [isSubOpen, setIsSubOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [isEditModelOpen, setIsEditModelOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -37,6 +41,18 @@ const MultilevelDropdown = ({ co2emission, onCheckboxChange, isSelected }:Co2Emi
     setIsDeleteModalOpen(false);
   };
 
+  useEffect(() => {
+    function handleClickOutside(event:MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsMainOpen(false); 
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownRef]);
+
   const handleDelete = async () => {
     if (co2emission.id === 0) return;
 
@@ -49,7 +65,7 @@ const MultilevelDropdown = ({ co2emission, onCheckboxChange, isSelected }:Co2Emi
   };
 
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsMainOpen(!isMainOpen)}
         className=" text-[#929faf] font-bold text-2xl rounded-md"
@@ -58,7 +74,7 @@ const MultilevelDropdown = ({ co2emission, onCheckboxChange, isSelected }:Co2Emi
       </button>
       {isMainOpen && (
         <div className="absolute right-8 mt-2 w-32 z-50 bg-[#1e293c] border text-white border-gray-700 rounded-md shadow-lg">
-          <a href="#" className="block py-2 ">
+          <a href="#" className="block py-2 hover:bg-[#162a4e]">
             <button
               onClick={handleEditClick}
               className={`font-medium text-sm flex py-1 px-3 text-slate-800 dark:text-slate-200`}
@@ -70,48 +86,51 @@ const MultilevelDropdown = ({ co2emission, onCheckboxChange, isSelected }:Co2Emi
           <div className="relative group">
             <button
               onClick={() => setIsSubOpen(!isSubOpen)}
-              className="block w-full text-left px-3 py-2"
+              className="flex w-full hover:bg-[#162a4e] items-center justify-between text-left px-3 py-2"
             >
-              LABEL
+              <div>LABEL</div>
+              <ChevronRight size={18} />
             </button>
             {isSubOpen && (
               <div className="absolute right-full top-5 mr-2 mt-0 w-32 bg-[#1e293c] border text-white border-gray-700 rounded-md shadow-lg">
-                <a href="#" className="block px-4 py-2 ">
+                <a href="#" className="block px-4 py-2 hover:bg-[#162a4e]">
                   Scope-1
                 </a>
-                <div className="relative group">
-                  <button className="block w-full text-left px-4 py-2 ">
+                <div className="relative group hover:bg-[#162a4e]">
+                  <button className="block w-full text-left  px-4 py-2 ">
                     Scope-2
                   </button>
                 </div>
-                <a href="#" className="block px-4 py-2 ">
+                <a href="#" className="block px-4 py-2 hover:bg-[#162a4e]">
                   Scope-3
                 </a>
               </div>
             )}
           </div>
-          <a href="#" className="block py-2 ">
+          <a href="#" className="block py-2 hover:bg-[#162a4e]">
             <button
               onClick={handleDeleteClick}
-              className={`font-medium text-sm flex py-1 px-3 text-rose-600`}
+              className={`font-medium text-sm flex py-1 px-3  text-rose-600`}
             >
               DELETE
             </button>
           </a>
           <Link
-            className={`font-medium text-sm flex py-1 px-3 text-slate-800 dark:text-slate-200`}
-            href="/view"
+            className={`font-medium text-sm flex py-2 px-3 text-slate-800 dark:text-slate-200 hover:bg-[#162a4e]`}
+            href={`/viewpage/${co2emission.Name}`}
           >
             VIEW MORE
           </Link>
         </div>
       )}
-
+      
+     {/* Edit Model component */}
       <EditModel
         isOpen={isEditModelOpen}
         co2emission={co2emission}
         onClose={handleCloseEditModel}
       />
+
       {/* Modal backdrop animation */}
       <Modal
         size="md"

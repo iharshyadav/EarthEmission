@@ -1,5 +1,9 @@
+    "use server"
+
 // import { auth } from '@clerk/nextjs/server';
 import prisma from '../utils/prismaClient'
+
+
 
 export const Co2eEmissions = async (q, page) => {
     const regex = new RegExp(q, 'i');
@@ -44,3 +48,25 @@ export const Co2eEmissions = async (q, page) => {
       return { count: 0, co2e_emissions: [] };
     }
   };
+
+
+  export const showData = async (Name:string) => {
+
+
+
+    try {
+      console.log("first")
+      const data = await prisma.co2e_emissions.findFirst({
+        where : {
+           Name
+        }
+      }); 
+      console.log(data);
+      return data;
+    } catch (err) {
+      console.error(err);
+      // Return a default value or handle the error as needed
+      return { count: 0, co2e_emissions: [] };
+    }
+
+  }

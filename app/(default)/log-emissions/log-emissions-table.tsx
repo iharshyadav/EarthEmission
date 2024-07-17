@@ -23,7 +23,7 @@ export default function Co2EmissionsTable({ co2emissions, count }: { count: 0, c
     handleCheckboxChange,
     handleSelectAllChange,
   } = useItemSelection(co2emissions)  
-  console.log(co2emissions)
+  // console.log(co2emissions)
 
 
   return (

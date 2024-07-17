@@ -76,7 +76,7 @@ const CodeExamples: FC<codeExamplesProps> = ({}) => {
     <div>
       <p className="font-medium mb-2 text-sm">Code Snippets</p>
 
-      <div className="md:w-[27vw] mx-auto h-80 bg-[#212936] shadow-md rounded-lg ">
+      <div className="md:w-[27vw] mx-auto bg-[#212936] shadow-md rounded-lg ">
         <div className="flex justify-between text-white gap-3 h-10 bg-[#374151]">
           <div className="flex gap-4">
             <button
@@ -113,7 +113,8 @@ const CodeExamples: FC<codeExamplesProps> = ({}) => {
               activeTab === 2 ? "block bg-[#212936]" : "hidden"
             } p-4`}
           >
-            {tab1()}
+            {/* {tab1()} */}
+            
           </div>
         </div>
       </div>
