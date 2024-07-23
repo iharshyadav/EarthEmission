@@ -1,78 +1,74 @@
-// This below check is added to avoid type script warnings and errors, remove this in future and fix all the type erros
+
 // @ts-nocheck
-
-"use client"
-
-
+"use client";
 // server action to calculate and add co2 emissions to the table
 import { addCo2eEmissions } from "../../../lib/actions";
-import {categories, cloud_duration_unit} from "../../../utils/constants";
-import {cloud_providers} from "../../../utils/constants";
+import { cloud_duration_unit } from "../../../utils/constants";
+import { cloud_providers } from "../../../utils/constants";
+import AddemissionsCloud from "./logemissions-cloud";
+// import AddemissionsFreight from "./logemissions-freight";
+import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import {categories} from "../../../utils/constants";
 import {sectors} from "../../../utils/constants";
-
-import AddemissionsCloud from "./logemissions-cloud"
-// import AddemissionsFreight from "./logemissions-freight" 
-
-import {Autocomplete, AutocompleteItem} from "@nextui-org/react";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Checkbox, Input, Link} from "@nextui-org/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+  Checkbox,
+  Input,
+  Link,
+} from "@nextui-org/react";
 import { useState, useEffect, useRef } from "react";
 import React from "react";
-import ReactSelect from 'react-select';
-
-const Addemissions =  () => {
+import ReactSelect from "react-select";
+const Addemissions = () => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [Name, setName] = useState("");
+  const [sectors_get, setSectors_get] = useState([]);
+  const [sector, setSector] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [category_get, setCategory_get] = useState([]);
   
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
-  const [Name, setName] = useState('');
-  const [sectors_get, setSectors_get] = useState(['Information and Communication']);
-  const [sector, setSector] = useState(['Information and Communication']);
-  const [category, setCategory] = useState(['Cloud Computing - CPU']);
-  const [category_get, setCategory_get] = useState(['Cloud Computing - CPU']);
-  const [category_set, setCategory_set] = useState(['Cloud Computing - CPU']);
+  const [category_set, setCategory_set] = useState([]);
   // const [isModalOpen, setIsModalOpen] = useState(true);
-
-
-  
   const handleChildSubmit = () => {
     console.log("Button clicked in Parent");
-    if (childRef.current) 
-      {
-       childRef.current.formSubmitHandler();
+    if (childRef.current) {
+      childRef.current.formSubmitHandler();
     }
   };
-
   const childRef = useRef(null);
 
-      // fetch sectors data from the emission_factors_wce table
-      // useEffect(() => {
-      //   fetch('/api/metadata/sectors')
-      //     .then((res) => res.json())
-      //     .then(sectors_get => {
-      //       setSectors_get(sectors_get)
-      //     })
-          
-      // }, [])  
-
-      // sector = sectors_set
-
-      console.log(sectors_get)
-
-    //   useEffect(() => {
-    //     if (sector) {
-    //     fetch(`/api/metadata/category/${sector}`)
-    //       .then((res) => res.json())
-    //       .then(category_get => {
-    //         setCategory_get(category_get)
-    //       })
-    //   }
-    // },[sector]) 
-
-    console.log(sectors_get)
-    console.log(category_get)
-    console.log(category_set)
-    console.log(sector)
-
-  console.log(sectors_get)
-  console.log(category_get)
+  // fetch sectors data from the emission_factors_wce table
+  useEffect(() => {
+    fetch("/api/metadata/sectors")
+      .then((res) => res.json())
+      .then((sectors_get) => {
+        setSectors_get(sectors_get);
+      });
+  }, []);
+  // sector = sectors_set
+  console.log(sectors_get);
+  useEffect(() => {
+    if (sector) {
+      fetch(`/api/metadata/category/${sector}`)
+        .then((res) => res.json())
+        .then((category_get) => {
+          setCategory_get(category_get);
+        });
+    }
+  }, [sector]);
+  // console.log(sectors_get);
+  // console.log(category_get);
+  console.log(Name)
+  console.log(category_set);
+  console.log(sector);
+  // console.log(sectors_get);
+  // console.log(category_get);
   return (
     <>
       <div>
@@ -135,12 +131,12 @@ const Addemissions =  () => {
                       <label className="block text-sm font-medium mb-1" htmlFor="company-name">Emission Name <span className="text-rose-500">*</span></label>
                       <input required id="Name" value={Name} onChange={(event) => setName(event.target.value)} className="form-input w-full" type="text"/>
                     </div> */}
-
                   <Input
                     autoFocus
                     size="lg"
                     name="Name"
-                    placeholder="Enter Emission Name"
+                    label="Enter Emission Name"
+                    labelPlacement="outside"
                     variant="bordered"
                     value={Name}
                     onChange={(event) => setName(event.target.value)}
@@ -150,44 +146,19 @@ const Addemissions =  () => {
                       border: "none",
                     }}
                   />
-
                   <div className="flex flex-row gap-20">
-                    {/* <div>
-                      <label className="block text-sm font-medium mb-1" htmlFor="sectors">Sector <span className="text-rose-500">*</span></label>
-                      <ReactSelect 
-                        id="sectors" 
-                        options={sectors_get.map(sector => ({ label: sector.sector, value: sector.sector }))} 
-                        onChange={(selectedOption) => setSector(selectedOption.value)} 
-                        className="form-select w-full outline-none"
-                        // styles={customStyles}
-                      />
-                    </div> */}
-
                     <div>
                       <Autocomplete
                         size="lg"
-                        placeholder="Select a sector data"
+                        labelPlacement="outside"
+                        label="Select a sector data"
                         className="w-96"
                         selectedKey={sector}
                         name="sectors"
                         variant="bordered"
-                        value='Information and Communication'
+                        value={sector}
                         onSelectionChange={setSector}
-                        disabledKeys={[
-                          "Materials and Manufacturing",
-                          "Consumer Goods and Services",
-                          "Health and Social Care",
-                          "Refrigerants and Fugitive Gases",
-                          "Waste",
-                          "Education",
-                          "Organizational Activities",
-                          "Agriculture/Hunting/Forestry/Fishing",
-                          "Equipment",
-                          "Water",
-                          "Restaurants and Accommodation",
-                          "Buildings and Infrastructure",
-                          "Insurance and Financial Services",
-                        ]}
+                        
                         isRequired
                         allowsCustomValue={true}
                         style={{
@@ -196,7 +167,7 @@ const Addemissions =  () => {
                           border: "none",
                         }}
                       >
-                        {sectors.map((sector) => (
+                        {sectors_get.map((sector) => (
                           <AutocompleteItem
                             key={sector.sector}
                             value={sector.sector}
@@ -206,10 +177,10 @@ const Addemissions =  () => {
                         ))}
                       </Autocomplete>
                     </div>
-
                     <div>
                       <Autocomplete
-                        placeholder="Select a category"
+                        label="Select a category"
+                        labelPlacement="outside"
                         size="lg"
                         className="w-96"
                         selectedKey={category_set}
@@ -241,22 +212,26 @@ const Addemissions =  () => {
                       </Autocomplete>
                     </div>
                   </div>
-
-                  {/* {sector === 'Information and Communication' && (
-                      <>
-                    <AddemissionsCloud ref={childRef} sectorProp={sector} categoryProp={category_set} nameProp={Name} />
-                    </>)} */}
-
-                  <AddemissionsCloud
-                    ref={childRef}
-                    sectorProp={sector}
-                    categoryProp={category_set}
-                    nameProp={Name}
-                  />
-                  {/* {sector === 'Transport' && (
-                       <>
-                    <AddemissionsFreight ref={childRef} sectorProp={sector} categoryProp={category_set} nameProp={Name} />
-                    </>)} */}
+                  {sector === "Information and Communication" && (
+                    <>
+                      <AddemissionsCloud
+                        ref={childRef}
+                        sectorProp={sector}
+                        categoryProp={category_set}
+                        nameProp={Name}
+                      />
+                    </>
+                   )} 
+                  {/* {sector === "Transport" && (
+                    <>
+                      <AddemissionsFreight
+                        ref={childRef}
+                        sectorProp={sector}
+                        categoryProp={category_set}
+                        nameProp={Name}
+                      />
+                    </>
+                  )} */}
                 </ModalBody>
                 <ModalFooter>
                   <Button color="danger" variant="flat" onPress={onClose}>
@@ -271,7 +246,6 @@ const Addemissions =  () => {
                     Create
                   </Button>
                 </ModalFooter>
-
                 {/* </form> */}
               </>
             )}
@@ -280,8 +254,5 @@ const Addemissions =  () => {
       </div>
     </>
   );
-  
-    
 };
-
-export default Addemissions;
+export default Addemissions

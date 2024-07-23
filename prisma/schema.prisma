@@ -19,3 +19,9 @@ model co2e_emissions {
   co2e        Decimal? @db.Decimal(10, 2)
   userId      String?  @db.VarChar(255)
 }
+
+model emission_factors_wce {
+  id       Int     @id @default(autoincrement())
+  sector   String? @db.VarChar(255)
+  category String? @db.VarChar(255)
+}

@@ -1,32 +1,43 @@
-import { co2Emission } from './log-emissions-table'
+"use client";
+
+import { co2Emission } from "./log-emissions-table";
 // import { deleteLogEmission } from "@/app/lib/actions";
 
-import {useDisclosure} from "@nextui-org/react";
+import { useDisclosure } from "@nextui-org/react";
 
-import MultilevelDropdown from './components/log-emission-table-dropdown';
+import MultilevelDropdown from "./components/log-emission-table-dropdown";
+import ScopeDropdown from "./components/scope-dropdown";
+import DateSelect from "./components/date-select";
+import { useContext } from "react";
+import { ScopeContext } from "@/app/(context)/ScopeContext";
 
 interface Co2EmissionsTableItemProps {
-  co2emission: co2Emission
-  count: number
-  onCheckboxChange: (id: number, checked: boolean) => void
-  isSelected: boolean
+  co2emission: co2Emission;
+  count: number;
+  onCheckboxChange: (id: number, checked: boolean) => void;
+  isSelected: boolean;
 }
 
-export default function Co2EmissionsTableItem({ co2emission, onCheckboxChange, isSelected }: Co2EmissionsTableItemProps) {
-  
-  const {onOpen} = useDisclosure();
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {        
-    onCheckboxChange(co2emission.id, e.target.checked)
-  }
+export default function Co2EmissionsTableItem({
+  co2emission,
+  onCheckboxChange,
+  isSelected,
+}: Co2EmissionsTableItemProps) {
+  const { onOpen } = useDisclosure();
+  const { scopeCheck , scopeValue } = useContext(ScopeContext);
 
-  console.log(co2emission)
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onCheckboxChange(co2emission.id, e.target.checked);
+  };
+
+  // console.log(co2emission);
 
   const handleDelete = async () => {
     if (co2emission.id === 0) return;
 
     try {
       // await deleteLogEmission({ ids: co2emission.id });
-       // Clear selected items after deletion
+      // Clear selected items after deletion
     } catch (error) {
       console.error("Error deleting Private Emission Factor:", error);
     }
@@ -38,7 +49,12 @@ export default function Co2EmissionsTableItem({ co2emission, onCheckboxChange, i
         <div className="flex items-center">
           <label className="inline-flex">
             <span className="sr-only">Select</span>
-            <input className="form-checkbox" type="checkbox" onChange={handleCheckboxChange} checked={isSelected} />
+            <input
+              className="form-checkbox"
+              type="checkbox"
+              onChange={handleCheckboxChange}
+              checked={isSelected}
+            />
           </label>
         </div>
       </td>
@@ -57,21 +73,31 @@ export default function Co2EmissionsTableItem({ co2emission, onCheckboxChange, i
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div className="text-left">{co2emission.year}</div>
       </td>
-      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="text-left">{co2emission.co2e}</div>
+      <td className="px-2 first:pl-5 last:pr-5 py-6 whitespace-nowrap flex gap-5">
+        <div className={`text-left w-12 ${scopeCheck ? "pt-2" : "pt-0"} `}>
+          {co2emission.co2e}
+        </div>
+        {scopeCheck && scopeValue === co2emission.Name ? <DateSelect /> : null}
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div className="text-left">{co2emission.co2e_unit}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
-        
-        <div onClick={onOpen} className="mb-3 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600">
-            <MultilevelDropdown co2emission={co2emission} onCheckboxChange={onCheckboxChange} isSelected={isSelected} className={''} count={0} />
+        <div
+          onClick={onOpen}
+          className="mb-3 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
+        >
+          <MultilevelDropdown
+            co2emission={co2emission}
+            onCheckboxChange={onCheckboxChange}
+            isSelected={isSelected}
+            className={""}
+            count={0}
+          />
         </div>
-        
-        
-        
       </td>
+
+      
     </tr>
-  )
+  );
 }

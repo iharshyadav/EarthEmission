@@ -38,12 +38,12 @@ const Page: FC<co2Emission> = ({}) => {
       setData(data)
       return data;
     }
-     const datas = d(params)
+     d(params)
   },[])
 
   
   return (
-    <div className="bg-white min-h-screen w-full xl:px-32 lg:px-28 md:px-24 sm:px-6 px-5 overflow-x-hidden scroll-smooth">
+    <div className="bg-[#f1f5f8] min-h-screen w-full xl:px-32 lg:px-28 md:px-24 sm:px-6 px-5 overflow-x-hidden scroll-smooth">
     <ViewBreadcrumb /> 
     <ViewHeader params={params} /> 
     <div className='md:flex md:flex-row lg: flex-col flex gap-20 sm:mt-20 mt-10'>

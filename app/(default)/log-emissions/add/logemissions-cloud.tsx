@@ -37,9 +37,10 @@ const AddemissionsCloud =  forwardRef(({nameProp, sectorProp, categoryProp }, re
   const [provider, setProvider] = React.useState<React.Key>("");
   const [methodology, setMethodology] = React.useState<React.Key>("");
 
+
+
   console.log(sectorProp)
-
-
+  
   console.log(categoryProp)
 
   console.log(nameProp)
@@ -132,6 +133,8 @@ const AddemissionsCloud =  forwardRef(({nameProp, sectorProp, categoryProp }, re
                 'Content-Type': 'application/json'
               },
               body: postData
+            }).then(()=> {
+              
             })
             const responsedata = await response.json(); // Parse JSON response
 

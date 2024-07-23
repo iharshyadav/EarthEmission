@@ -52,8 +52,6 @@ export const Co2eEmissions = async (q, page) => {
 
   export const showData = async (Name:string) => {
 
-
-
     try {
       console.log("first")
       const data = await prisma.co2e_emissions.findFirst({
@@ -61,11 +59,11 @@ export const Co2eEmissions = async (q, page) => {
            Name
         }
       }); 
-      console.log(data);
+      // console.log(data);
       return data;
     } catch (err) {
       console.error(err);
-      // Return a default value or handle the error as needed
+      
       return { count: 0, co2e_emissions: [] };
     }
 
